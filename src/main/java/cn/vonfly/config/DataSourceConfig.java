@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableTransactionManagement//开始事务处理
+@EnableTransactionManagement//开启事务处理
 public class DataSourceConfig {
     @Value("${read.database.url}")
     private String readUrl;

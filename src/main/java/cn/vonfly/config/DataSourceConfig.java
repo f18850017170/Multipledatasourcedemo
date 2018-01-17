@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableTransactionManagement//开始事务处理
 public class DataSourceConfig {
     @Value("${read.database.url}")
     private String readUrl;
@@ -70,6 +72,7 @@ public class DataSourceConfig {
      * @return
      */
     @Bean
+    @Qualifier("readDataSourceTransactionManager")
     public DataSourceTransactionManager readDataSourceTransactionManager(@Qualifier("readDataSource") DataSource readDataSource) {
         DataSourceTransactionManager manager = new DataSourceTransactionManager(readDataSource);
         return manager;
@@ -82,6 +85,7 @@ public class DataSourceConfig {
      * @return
      */
     @Bean
+    @Qualifier("writeDataSourceTransactionManager")//使用@Transactional 可以根据@Qualifier识别对应的事务管理器
     public DataSourceTransactionManager writeDataSourceTransactionManager(@Qualifier("writeDataSource") DataSource writeDataSource) {
         DataSourceTransactionManager manager = new DataSourceTransactionManager(writeDataSource);
         return manager;
